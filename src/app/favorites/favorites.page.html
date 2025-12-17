@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let book of list">
+      <ion-label>
+        <h2>{{book.originalTitle}}</h2>
+        <p>Livro {{book.number}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="list.length===0">Nenhum favorito ainda.</div>
+</ion-content>

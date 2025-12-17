@@ -1,0 +1,18 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Harry Potter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="book">
+  <h2>Livro {{book.number}} - {{book.originalTitle}}</h2>
+  <p>Toque na capa para ver detalhes</p>
+  <img [src]="book.cover" (click)="openDetails()" style="width:100%;border-radius:12px"/>
+  <div style="text-align: center; margin-top: 20px;">
+    <ion-button fill="outline" color="danger" routerLink="/favorites">
+      <ion-icon name="heart"></ion-icon>
+      Favoritos
+    </ion-button>
+  </div>
+</ion-content>

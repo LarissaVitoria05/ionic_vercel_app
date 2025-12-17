@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Favoritos</title>
+</head>
+<body>
+    <h1>Debug Favoritos</h1>
+    <button onclick="checkFavorites()">Verificar Favoritos</button>
+    <button onclick="clearFavorites()">Limpar Favoritos</button>
+    <div id="result"></div>
+
+    <script>
+        function checkFavorites() {
+            const favs = localStorage.getItem('harryPotterFavorites');
+            document.getElementById('result').innerHTML = 
+                '<h3>Dados no localStorage:</h3><pre>' + 
+                (favs || 'Nenhum dado encontrado') + '</pre>';
+        }
+        
+        function clearFavorites() {
+            localStorage.removeItem('harryPotterFavorites');
+            document.getElementById('result').innerHTML = '<p>Favoritos limpos!</p>';
+        }
+    </script>
+</body>
+</html>

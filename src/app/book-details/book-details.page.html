@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalhes do Livro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="book; else noBook">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Livro {{book.number}} - {{book.originalTitle}}</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <img [src]="book.cover" [alt]="book.originalTitle" style="max-width:100%;border-radius:8px;margin-bottom:16px" />
+        
+        <ion-item>
+          <ion-label>
+            <h3>Data de publicação</h3>
+            <p>{{book.releaseDate}}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>
+            <h3>Páginas</h3>
+            <p>{{book.pages}}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>
+            <h3>Descrição (Original)</h3>
+            <p>{{book.description}}</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item *ngIf="book.description_pt">
+          <ion-label>
+            <h3>Descrição (PT-BR)</h3>
+            <p>{{book.description_pt}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="full" fill="outline" (click)="goBack()">
+      <ion-icon name="arrow-back" slot="start"></ion-icon>
+      Voltar
+    </ion-button>
+    
+    <ion-button expand="full" (click)="addFavorite()">
+      <ion-icon name="heart" slot="start"></ion-icon>
+      Adicionar aos Favoritos
+    </ion-button>
+  </div>
+  
+  <ng-template #noBook>
+    <ion-card>
+      <ion-card-content>
+        <p>Nenhum livro selecionado.</p>
+        <ion-button expand="full" (click)="goBack()">Voltar à Home</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

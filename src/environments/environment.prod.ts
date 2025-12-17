@@ -1,0 +1,1 @@
+export const environment = { production: true, apiUrl: 'https://potterapi-fedeperin.vercel.app/en/books/random' };

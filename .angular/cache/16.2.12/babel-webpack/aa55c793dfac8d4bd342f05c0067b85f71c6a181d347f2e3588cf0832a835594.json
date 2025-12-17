@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const environment = {\n  production: false,\n  apiUrl: 'https://potterapi-fedeperin.vercel.app/en/books/random'\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
