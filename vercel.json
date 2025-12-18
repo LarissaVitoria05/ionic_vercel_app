@@ -1,5 +1,10 @@
 {
-  "version": 2,
-  "builds": [{ "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "www" } }],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+  "buildCommand": "ionic build",
+  "outputDirectory": "www",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
