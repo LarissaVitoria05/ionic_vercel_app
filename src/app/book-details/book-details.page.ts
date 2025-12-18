@@ -1,38 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { FavoritesService } from '../services/favorites.service';
-import { TranslationService } from '../services/translation.service';
+import { BookService } from '../services/book.service';
 
 @Component({
-  selector: 'app-details',
+  selector: 'app-book-details',
   templateUrl: './book-details.page.html'
 })
-export class BookDetailsPage implements OnInit {
+export class BookDetailsPage {
   book: any = null;
-
+  
   constructor(
-    private router: Router,
-    private fav: FavoritesService,
-    private translation: TranslationService
-  ) {
-    const nav = this.router.getCurrentNavigation();
-    this.book = (nav && nav.extras && nav.extras.state && nav.extras.state['book']) || history.state['book'] || null;
-  }
+    private navCtrl: NavController,
+    private favoritesService: FavoritesService,
+    private bookService: BookService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  async ngOnInit() {
-    if (this.book && this.book.description) {
-      const translated = this.translation.translateDescription(this.book.description);
-      this.book.description_pt = translated;
-    }
+  ionViewWillEnter() {
+    // Aguarda um pouco para garantir que os dados estejam disponíveis
+    setTimeout(() => {
+      this.book = this.bookService.getCurrentBook();
+      console.log('Livro na página de detalhes:', this.book);
+      this.cdr.detectChanges();
+    }, 100);
   }
 
   goBack() {
-    this.router.navigate(['/']);
+    this.navCtrl.navigateBack('/home');
   }
 
-  async addFavorite() {
+  addFavorite() {
     if (this.book) {
-      await this.fav.saveFavorite(this.book);
+      this.favoritesService.addFavorite(this.book);
       alert('Livro adicionado aos favoritos!');
     }
   }

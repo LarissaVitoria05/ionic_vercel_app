@@ -1,17 +1,76 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Favoritos</ion-title>
+    <ion-title>Meus Favoritos</ion-title>
+    <ion-buttons slot="end" *ngIf="favorites.length">
+      <ion-button (click)="clearAllFavorites()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let book of list">
-      <ion-label>
-        <h2>{{book.originalTitle}}</h2>
-        <p>Livro {{book.number}}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <div *ngIf="list.length===0">Nenhum favorito ainda.</div>
+
+  <ion-card *ngFor="let book of favorites" class="favorite-card">
+    <ion-card-header>
+      <ion-card-title>{{ book.title }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="book-info">
+        <img
+          [src]="book.cover"
+          [alt]="book.title"
+          class="book-cover"
+        />
+
+        <div class="book-details">
+          <p *ngIf="book.releaseDate">
+            <ion-icon name="calendar"></ion-icon>
+            {{ book.releaseDate }}
+          </p>
+
+          <p *ngIf="book.pages">
+            <ion-icon name="document-text"></ion-icon>
+            {{ book.pages }} páginas
+          </p>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <ion-button expand="block" (click)="viewDetails(book)">
+          <ion-icon name="eye" slot="start"></ion-icon>
+          Ver Detalhes
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger"
+          (click)="removeFavorite(book)"
+        >
+          <ion-icon name="heart-dislike" slot="start"></ion-icon>
+          Remover
+        </ion-button>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <div *ngIf="!favorites.length" class="empty-state">
+    <ion-card>
+      <ion-card-content class="ion-text-center">
+        <ion-icon name="heart-outline" size="large"></ion-icon>
+        <h3>Nenhum favorito ainda</h3>
+        <p>Adicione livros aos seus favoritos para vê-los aqui.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-button expand="block" fill="outline" routerLink="/home">
+    <ion-icon name="home" slot="start"></ion-icon>
+    Voltar para Home
+  </ion-button>
+
 </ion-content>

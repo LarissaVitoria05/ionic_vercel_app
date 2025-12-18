@@ -1,18 +1,76 @@
-
 <ion-header>
   <ion-toolbar>
-    <ion-title>Harry Potter</ion-title>
+    <ion-title>Livros do Harry Potter</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="refreshBook()" [disabled]="isLoading">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="book">
-  <h2>Livro {{book.number}} - {{book.originalTitle}}</h2>
-  <p>Toque na capa para ver detalhes</p>
-  <img [src]="book.cover" (click)="openDetails()" style="width:100%;border-radius:12px"/>
-  <div style="text-align: center; margin-top: 20px;">
-    <ion-button fill="outline" color="danger" routerLink="/favorites">
-      <ion-icon name="heart"></ion-icon>
-      Favoritos
-    </ion-button>
+<ion-content class="ion-padding">
+  <div *ngIf="book && !isLoading" class="book-card">
+    <div class="book-header">
+      <h2>{{book.originalTitle || book.title}}</h2>
+      <p *ngIf="book.number" class="book-number">Livro {{book.number}}</p>
+    </div>
+    
+    <div class="cover" (click)="openDetails()">
+      <img [src]="book.cover" [alt]="book.originalTitle" />
+      <p class="tap-hint">Toque na capa para ver detalhes completos</p>
+    </div>
+    
+    <div class="book-preview" *ngIf="getDescriptionPreview()">
+      <h3>Descrição:</h3>
+      <p class="description-preview">
+        {{getDescriptionPreview()}}
+        <span class="read-more" *ngIf="getDescriptionPreview().length >= 150" (click)="openDetails()">... ler mais</span>
+      </p>
+    </div>
+    
+    <div class="book-info" *ngIf="book.releaseDate || book.pages">
+      <p *ngIf="book.releaseDate">
+        <ion-icon name="calendar" color="primary"></ion-icon>
+        {{book.releaseDate}}
+      </p>
+      <p *ngIf="book.pages">
+        <ion-icon name="document-text" color="primary"></ion-icon>
+        {{book.pages}} páginas
+      </p>
+    </div>
+    
+    <div class="actions">
+      <ion-button expand="block" (click)="openDetails()">
+        <ion-icon name="book" slot="start"></ion-icon>
+        Ver Detalhes Completos
+      </ion-button>
+      
+      <ion-button expand="block" fill="outline" color="danger" routerLink="/favorites">
+        <ion-icon name="heart" slot="start"></ion-icon>
+        Meus Favoritos
+      </ion-button>
+      
+      <ion-button expand="block" fill="clear" (click)="refreshBook()">
+        <ion-icon name="refresh" slot="start"></ion-icon>
+        Novo Livro Aleatório
+      </ion-button>
+    </div>
+  </div>
+  
+  <div *ngIf="isLoading" class="loading">
+    <ion-spinner></ion-spinner>
+    <p>Carregando livro...</p>
+  </div>
+  
+  <div *ngIf="!book && !isLoading" class="no-book">
+    <ion-card>
+      <ion-card-content>
+        <p>Nenhum livro carregado.</p>
+        <ion-button expand="block" (click)="loadRandomBook()">
+          Carregar Livro
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>
